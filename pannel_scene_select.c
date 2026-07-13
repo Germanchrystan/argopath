@@ -1,11 +1,20 @@
 #include <stdio.h>
 #include "pannels.h"
-#include "constants.h"
 #include "raygui.h"
+
+static float dropdownX;
+static float dropdownY;
+static float dropdownWidth;
+static float dropdownHeight;
 
 void pannelSceneSelectInit(Pannel *pannel)
 {
-  pannel->rect = (Rectangle){ 0, 0, WINDOW_WIDTH / 12, WINDOW_HEIGHT / 6 };
+  pannel->rect = (Rectangle){ 0, 0, PANNEL_WIDTH_1, PANNEL_HEIGHT_1 };
+  dropdownWidth = pannel->rect.width - 2 * PANNEL_PADDING_1;
+  dropdownHeight = 32.0f;
+
+  dropdownX = PANNEL_PADDING_1;
+  dropdownY = PANNEL_PADDING_1;
 }
 
 void pannelSceneSelectUpdate(Pannel *pannel)
@@ -17,7 +26,7 @@ void pannelSceneSelectDraw(Pannel *pannel)
 {
   DrawRectangleRec(pannel->rect, COLOR_4);
 
-  if(GuiDropdownBox((Rectangle) {15, 15, 96, 32}, "OPTION1;OPTION2", &pannel->state->sceneSelect.scene, pannel->state->sceneSelect.openDropdown))
+  if(GuiDropdownBox((Rectangle) {dropdownX, dropdownY, dropdownWidth, dropdownHeight}, "OPTION1;OPTION2", &pannel->state->sceneSelect.scene, pannel->state->sceneSelect.openDropdown))
   {
     printf("Dropdown option selected: %d\n", pannel->state->sceneSelect.scene);
     pannel->state->sceneSelect.openDropdown = !pannel->state->sceneSelect.openDropdown;
@@ -29,6 +38,6 @@ Pannel pannelSceneSelect = (Pannel){
   .rect = (Rectangle){ 0, 0, 0, 30 },
   .state = &(PannelState){ .sceneSelect = (StateSceneSelect){ .scene = 0, .openDropdown = false } },
   .init = pannelSceneSelectInit,
-  .update = pannelSceneSelectUpdate,
-  .draw = pannelSceneSelectDraw
+  .draw = pannelSceneSelectDraw,
+  .next = &pannelEntityPalette
 };

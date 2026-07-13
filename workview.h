@@ -1,21 +1,17 @@
 #pragma once
 
 #include <raylib.h>
-#include "grid.h"
+#include "pannels.h"
 
 typedef struct
 {
-  Grid grid;
-} GridPannel;
-
-typedef struct
-{
-  GridPosition *selectedGridPosition;
-  GridPosition *hoveredGridPosition;
-} Status;
-
-typedef struct
-{
-  Status *status;
-  
+  Pannel *modal;
+  Pannel *pannel;
 } WorkView;
+
+void initWorkView();
+void drawWorkView();
+void openModal(Pannel *pannel);
+void closeModal();
+
+static WorkView WORKVIEW;

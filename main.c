@@ -5,8 +5,8 @@
 
 #include "macos_presentation.h"
 #include "constants.h"
-
 #include "pannels.h"
+#include "workview.h"
 
 int main(int args, char *argv[])
 {
@@ -28,10 +28,12 @@ int main(int args, char *argv[])
 
   WINDOW_WIDTH = GetScreenWidth();
   WINDOW_HEIGHT = GetScreenHeight();
+  initPannelConstants();
 
   enableMacOSKioskPresentation(); // MACOS
   SetTargetFPS(60);
-  pannelSceneSelect.init(&pannelSceneSelect);
+
+  initWorkView();
 
   float dt;
   while (!WindowShouldClose())
@@ -41,8 +43,8 @@ int main(int args, char *argv[])
 
     // Draw
     BeginDrawing();
-    ClearBackground(BLUE);
-    pannelSceneSelect.draw(&pannelSceneSelect);
+    ClearBackground(COLOR_5);
+    drawWorkView();
     EndDrawing();
   }
 
