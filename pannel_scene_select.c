@@ -7,10 +7,11 @@ static float dropdownY;
 static float dropdownWidth;
 static float dropdownHeight;
 
-void pannelSceneSelectInit(Pannel *pannel)
+void pannelSceneSelectInit(Box *box)
 {
-  pannel->rect = (Rectangle){ 0, 0, PANNEL_WIDTH_1, PANNEL_HEIGHT_1 };
-  dropdownWidth = pannel->rect.width - 2 * PANNEL_PADDING_1;
+  Pannel *pannel = (Pannel *)box;
+  pannel->base.rect = (Rectangle){ 0, 0, PANNEL_WIDTH_1, PANNEL_HEIGHT_1 };
+  dropdownWidth = pannel->base.rect.width - 2 * PANNEL_PADDING_1;
   dropdownHeight = 32.0f;
 
   dropdownX = PANNEL_PADDING_1;
@@ -22,9 +23,10 @@ void pannelSceneSelectUpdate(Pannel *pannel)
   (void)pannel;
 }
 
-void pannelSceneSelectDraw(Pannel *pannel)
+void pannelSceneSelectDraw(Box *box)
 {
-  DrawRectangleRec(pannel->rect, COLOR_4);
+  Pannel *pannel = (Pannel *)box;
+  DrawRectangleRec(pannel->base.rect, COLOR_4);
 
   if(GuiDropdownBox((Rectangle) {dropdownX, dropdownY, dropdownWidth, dropdownHeight}, "OPTION1;OPTION2", &pannel->state->sceneSelect.scene, pannel->state->sceneSelect.openDropdown))
   {
@@ -35,9 +37,10 @@ void pannelSceneSelectDraw(Pannel *pannel)
 }
 
 Pannel pannelSceneSelect = (Pannel){
-  .rect = (Rectangle){ 0, 0, 0, 30 },
+  .base = (Box){
+    .init = pannelSceneSelectInit,
+    .draw = pannelSceneSelectDraw,
+  },
   .state = &(PannelState){ .sceneSelect = (StateSceneSelect){ .scene = 0, .openDropdown = false } },
-  .init = pannelSceneSelectInit,
-  .draw = pannelSceneSelectDraw,
   .next = &pannelEntityPalette
 };

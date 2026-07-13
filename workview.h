@@ -2,16 +2,17 @@
 
 #include <raylib.h>
 #include "pannels.h"
+#include "modals.h"
 
 typedef struct
 {
-  Pannel *modal;
+  Modal *modal;
   Pannel *pannel;
 } WorkView;
 
 void initWorkView();
 void drawWorkView();
-void openModal(Pannel *pannel);
+void openModal(Modal *modal);
 void closeModal();
 
 static WorkView WORKVIEW;

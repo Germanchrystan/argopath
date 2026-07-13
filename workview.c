@@ -4,6 +4,7 @@
 #include "pannels.h"
 #include "modals.h"
 #include "raygui.h"
+#include "constants.h"
 
 static WorkView *ptr = &WORKVIEW;
 static int MODAL_CONTAINER_PADDING_HEADER = 32;
@@ -29,9 +30,9 @@ void initWorkView()
 
   while (pannel != NULL)
   {
-    if (pannel->init != NULL)
+    if (pannel->base.init != NULL)
     {
-      pannel->init(pannel);
+      pannel->base.init((Box *)pannel);
     }
     pannel = pannel->next;
   }
@@ -44,12 +45,13 @@ void openModal(Modal *modal)
     fprintf(stderr, "Error opening modal");
     return;
   }
-  modal->init(modal);
+  modal->base.init((Box *)modal);
   ptr->modal = modal;
-  ModalContainerX = modal->rect.x - MODAL_CONTAINER_PADDING;
-  ModalContainerY = modal->rect.y - MODAL_CONTAINER_PADDING_HEADER;
-  ModalContainerWidth = modal->rect.width + 2 * MODAL_CONTAINER_PADDING;
-  ModalContainerHeight = modal->rect.height + MODAL_CONTAINER_PADDING_HEADER + MODAL_CONTAINER_PADDING;
+  
+  ModalContainerX = modal->base.rect.x - MODAL_CONTAINER_PADDING;
+  ModalContainerY = modal->base.rect.y - MODAL_CONTAINER_PADDING_HEADER;
+  ModalContainerWidth = modal->base.rect.width + 2 * MODAL_CONTAINER_PADDING;
+  ModalContainerHeight = modal->base.rect.height + MODAL_CONTAINER_PADDING_HEADER + MODAL_CONTAINER_PADDING;
 
   ModalContainerButtonX = ModalContainerX + ModalContainerWidth - MODAL_CONTAINER_BUTTON_SIZE - MODAL_CONTAINER_PADDING;
   ModalContainerButtonY = ModalContainerY + MODAL_CONTAINER_PADDING;
@@ -75,7 +77,7 @@ static void drawModal()
     ModalContainerY,
     ModalContainerWidth,
     ModalContainerHeight,
-    (Color){123, 43, 5, 128}
+    COLOR_5
   );
   // Draw container button
   if (GuiButton((Rectangle) {
@@ -83,13 +85,13 @@ static void drawModal()
     ModalContainerButtonY,
     ModalContainerButtonWidth,
     ModalContainerButtonHeight
-  }, "#113#"))
+  }, CLOSE_ICON))
   {
     closeModal();
     return;
   }
 
-  ptr->modal->draw(WORKVIEW.modal);
+  ptr->modal->base.draw((Box *)WORKVIEW.modal);
 }
 
 void drawPannels()
@@ -97,9 +99,9 @@ void drawPannels()
   Pannel *pannel = WORKVIEW.pannel;
   while (pannel != NULL)
   {
-    if (pannel->draw != NULL)
+    if (pannel->base.draw != NULL)
     {
-      pannel->draw(pannel);
+      pannel->base.draw((Box *)pannel);
     }
     pannel = pannel->next;
   }

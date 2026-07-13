@@ -23,27 +23,29 @@ typedef struct EntitySprite
 
 typedef union EntityFieldValue
 {
-  int number;
   char *string;
   bool boolean;
+  int number;
+  int dropdownIndex;
   Vector2 vector2;
   Rectangle rect;
   Color color;
-  int dropdownIndex;
 } EntityFieldValue;
 
 typedef struct EntityField
 {
+  char *name;
   EntityFieldType type;
   EntityFieldValue value;
 } EntityField;
 
 typedef struct Entity
 {
-  EntitySprite *sprite;
-  char *name;
-  EntityField *fields;
   int fieldCount;
+  char *name;
+  EntitySprite *sprite;
+  EntityField *fields;
+  Color *color;
 } Entity;
 
 typedef struct EntityInstance
@@ -51,3 +53,8 @@ typedef struct EntityInstance
   Entity *entity;
   GridPosition position;
 } EntityInstance;
+
+void entityInit(Entity *entity);
+void entityAddField(Entity *entity, const char *name, EntityFieldType type, EntityFieldValue value);
+void entityRemoveField(Entity *entity, const int index);
+void entityFree(Entity *entity);

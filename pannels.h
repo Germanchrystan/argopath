@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include "constants.h"
 #include "grid.h"
+#include "box.h"
 
 extern float PANNEL_PADDING_1;
 extern float PANNEL_HEIGHT_1;
@@ -42,10 +43,8 @@ typedef union PannelState
 // #ifndef Pannel
 typedef struct Pannel
 {
-  Rectangle rect;
+  Box base;
   PannelState *state;
-  PannelMethod *init;
-  PannelMethod *draw;
   Pannel *next;
 } Pannel;
 // #endif

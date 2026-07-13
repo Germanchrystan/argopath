@@ -10,25 +10,27 @@ static float buttonsX;
 static float buttonWidth;
 static float buttonHeight;
 
-void pannelEntityPaletteInit(Pannel *pannel)
+void pannelEntityPaletteInit(Box *box)
 {
-  pannel->rect = (Rectangle){
+  Pannel *pannel = (Pannel *)box;
+  pannel->base.rect = (Rectangle){
 		0,
 		PANNEL_HEIGHT_1,
 		PANNEL_WIDTH_1,
 		WINDOW_HEIGHT - PANNEL_HEIGHT_1
   };
 
-  buttonsX = pannel->rect.x + PANNEL_PADDING_1;
-  buttonsY = pannel->rect.y + PANNEL_PADDING_1;
+  buttonsX = pannel->base.rect.x + PANNEL_PADDING_1;
+  buttonsY = pannel->base.rect.y + PANNEL_PADDING_1;
   // TODO: FIXED DIMENSIONS FOR NOW
   buttonWidth = 32.0f;
   buttonHeight = 32.0f;
 }
 
-void drawPalettePannel(Pannel *pannel)
+void drawPalettePannel(Box *box)
 {
-  DrawRectangleRec(pannel->rect, COLOR_2);
+  Pannel *pannel = (Pannel *)box;
+  DrawRectangleRec(pannel->base.rect, COLOR_2);
 
   if (pannel == NULL)
   {
@@ -80,7 +82,9 @@ void drawPalettePannel(Pannel *pannel)
 
 Pannel pannelEntityPalette = (Pannel){
   .state = &(PannelState){ .entityPalette = (StateEntityPalette){ .selectedButton = 0 } },
-  .init = pannelEntityPaletteInit,
-  .draw = drawPalettePannel,
+  .base = (Box){
+    .init = pannelEntityPaletteInit,
+    .draw = drawPalettePannel,
+  },
   .next = &pannelGridEdit,
 };

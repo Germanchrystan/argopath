@@ -2,7 +2,11 @@
 
 #include "pannels.h"
 
-typedef Pannel Modal;
+typedef struct Modal
+{
+  Box base;
+} Modal;
+
 
 extern Modal modalStart;
 extern Modal modalNewEntity;

@@ -1,33 +1,34 @@
 #include "modals.h"
 #include <stdlib.h>
 #include <raylib.h>
+#include "constants.h"
+#include "box.h"
 
 const int MODAL_WIDTH = 400;
 const int MODAL_HEIGHT = 300;
 
-void modalNewEntityInit(Modal *modal)
+void modalNewEntityInit(Box *box)
 {
-  modal->rect = (Rectangle)
+  Modal *modal = (Modal *)box;
+  modal->base.rect = (Rectangle)
   { 
     WINDOW_WIDTH / 2 - MODAL_WIDTH / 2,
     WINDOW_HEIGHT / 2 - MODAL_HEIGHT / 2,
     MODAL_WIDTH,
     MODAL_HEIGHT 
   };
-  modal->state = NULL;
-  modal->next = NULL; // Next is not necessary in Modal
 }
 
-void modalNewEntityDraw(Modal *modal)
+void modalNewEntityDraw(Box *box)
 {
-  DrawRectangleRec(modal->rect, COLOR_3);
-  DrawText("New Entity Modal", modal->rect.x + 20, modal->rect.y + 20, 20, COLOR_1);
+  Modal *modal = (Modal *)box;
+  DrawRectangleRec(modal->base.rect, COLOR_3);
+  DrawText("New Entity Modal", modal->base.rect.x + 20, modal->base.rect.y + 20, 16, COLOR_5);
 }
 
 Modal modalNewEntity = (Modal){
-  .rect = (Rectangle){ 0, 0, MODAL_WIDTH, MODAL_HEIGHT },
-  .state = NULL,
-  .init = modalNewEntityInit,
-  .draw = modalNewEntityDraw,
-  .next = NULL
+  .base = (Box){
+    .init = modalNewEntityInit,
+    .draw = modalNewEntityDraw,
+  }
 };
