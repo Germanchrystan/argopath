@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pannels.h"
+#include "box.h"
 #include "entities.h"
 
 typedef struct NewEntityModalState

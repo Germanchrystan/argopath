@@ -15,8 +15,6 @@ typedef struct Pannel Pannel;
 
 void initPannelConstants(void);
 
-typedef void (PannelMethod) (Pannel *pannel);
-
 typedef struct StateSceneSelect 
 {
   int scene;
@@ -40,14 +38,13 @@ typedef union PannelState
   StateGridEdit gridEdit;
 } PannelState;
 
-// #ifndef Pannel
 typedef struct Pannel
 {
   Box base;
   PannelState *state;
   Pannel *next;
 } Pannel;
-// #endif
+
 extern Pannel pannelSceneSelect; // FIRST PANNEL
 extern Pannel pannelEntityPalette;
 extern Pannel pannelGridEdit;

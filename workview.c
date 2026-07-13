@@ -6,7 +6,8 @@
 #include "raygui.h"
 #include "constants.h"
 
-static WorkView *ptr = &WORKVIEW;
+static WorkView WORKVIEW_INSTANCE;
+static WorkView *WORKVIEW = &WORKVIEW_INSTANCE;
 static int MODAL_CONTAINER_PADDING_HEADER = 32;
 static int MODAL_CONTAINER_PADDING = 4;
 static int MODAL_CONTAINER_BUTTON_SIZE = 16;
@@ -23,10 +24,9 @@ static int ModalContainerButtonHeight;
 
 void initWorkView()
 {
-  WorkView *ptr = &WORKVIEW;
-  ptr->modal = NULL;
+  WORKVIEW->modal = NULL;
   Pannel *pannel = &pannelSceneSelect;
-  ptr->pannel = pannel;
+  WORKVIEW->pannel = pannel;
 
   while (pannel != NULL)
   {
@@ -40,13 +40,13 @@ void initWorkView()
 
 void openModal(Modal *modal)
 {
-  if (ptr->modal != NULL)
+  if (WORKVIEW->modal != NULL)
   {
     fprintf(stderr, "Error opening modal");
     return;
   }
   modal->base.init((Box *)modal);
-  ptr->modal = modal;
+  WORKVIEW->modal = modal;
   
   ModalContainerX = modal->base.rect.x - MODAL_CONTAINER_PADDING;
   ModalContainerY = modal->base.rect.y - MODAL_CONTAINER_PADDING_HEADER;
@@ -61,17 +61,17 @@ void openModal(Modal *modal)
 
 void closeModal()
 {
-  if (ptr->modal == NULL)
+  if (WORKVIEW->modal == NULL)
   {
     fprintf(stderr, "Error closing modal");
     return;
   }
-  ptr->modal = NULL;
+  WORKVIEW->modal = NULL;
 }
 
 static void drawModal()
 {
-  Modal *modal = ptr->modal;
+  Modal *modal = WORKVIEW->modal;
   DrawRectangle(
     ModalContainerX,
     ModalContainerY,
@@ -91,12 +91,12 @@ static void drawModal()
     return;
   }
 
-  ptr->modal->base.draw((Box *)WORKVIEW.modal);
+  WORKVIEW->modal->base.draw((Box *)WORKVIEW->modal);
 }
 
 void drawPannels()
 {
-  Pannel *pannel = WORKVIEW.pannel;
+  Pannel *pannel = WORKVIEW->pannel;
   while (pannel != NULL)
   {
     if (pannel->base.draw != NULL)
@@ -109,7 +109,7 @@ void drawPannels()
 
 void drawWorkView()
 {
-  if (WORKVIEW.modal == NULL)
+  if (WORKVIEW->modal == NULL)
   {
     drawPannels();
     return;

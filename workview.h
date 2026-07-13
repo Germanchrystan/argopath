@@ -14,5 +14,3 @@ void initWorkView();
 void drawWorkView();
 void openModal(Modal *modal);
 void closeModal();
-
-static WorkView WORKVIEW;
