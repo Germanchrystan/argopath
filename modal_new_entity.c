@@ -17,6 +17,13 @@ void modalNewEntityInit(Box *box)
     MODAL_WIDTH,
     MODAL_HEIGHT 
   };
+
+  if (modal->state.newEntity.entity != NULL)
+  {
+    free(modal->state.newEntity.entity);
+  }
+  Entity *newEntity = (Entity *)malloc(sizeof(Entity));
+  modal->state.newEntity.entity = newEntity;
 }
 
 void modalNewEntityDraw(Box *box)
