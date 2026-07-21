@@ -6,11 +6,15 @@
 typedef struct NewEntityModalState
 {
   Entity *entity;
+  char name[64];
+  bool nameEditMode;
+  bool createNewField;
+  int openDropdownIndex;
 } NewEntityModalState;
 
 typedef union ModalState
 {
-  NewEntityModalState newEntity;
+  NewEntityModalState entityState;
 } ModalState;
 
 typedef struct Modal

@@ -14,6 +14,11 @@ void getCellSize(Box *box)
   float cellSizeHeight = pannel->base.rect.height / VISIBLE_CELL_ROWS;
   float cellSizeWidth = pannel->base.rect.width / VISIBLE_CELL_COLUMNS;
   CELL_SIZE = (int)(cellSizeHeight < cellSizeWidth ? cellSizeHeight : cellSizeWidth);
+
+  if (CELL_SIZE < 1)
+  {
+    CELL_SIZE = 1;
+  }
 }
 
 void pannelGridEditInit(Box *box)

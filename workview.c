@@ -8,6 +8,7 @@
 
 static WorkView WORKVIEW_INSTANCE;
 static WorkView *WORKVIEW = &WORKVIEW_INSTANCE;
+
 static int MODAL_CONTAINER_PADDING_HEADER = 32;
 static int MODAL_CONTAINER_PADDING = 4;
 static int MODAL_CONTAINER_BUTTON_SIZE = 16;
@@ -54,7 +55,7 @@ void openModal(Modal *modal)
   ModalContainerHeight = modal->base.rect.height + MODAL_CONTAINER_PADDING_HEADER + MODAL_CONTAINER_PADDING;
 
   ModalContainerButtonX = ModalContainerX + ModalContainerWidth - MODAL_CONTAINER_BUTTON_SIZE - MODAL_CONTAINER_PADDING;
-  ModalContainerButtonY = ModalContainerY + MODAL_CONTAINER_PADDING;
+  ModalContainerButtonY = ModalContainerY + (MODAL_CONTAINER_PADDING * 2);
   ModalContainerButtonWidth = MODAL_CONTAINER_BUTTON_SIZE;
   ModalContainerButtonHeight = MODAL_CONTAINER_BUTTON_SIZE;
 }
@@ -77,8 +78,9 @@ static void drawModal()
     ModalContainerY,
     ModalContainerWidth,
     ModalContainerHeight,
-    COLOR_5
+    COLOR_4
   );
+
   // Draw container button
   if (GuiButton((Rectangle) {
     ModalContainerButtonX,

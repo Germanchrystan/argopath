@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include "grid.h"
 
-typedef enum EntityFieldType
+typedef enum FieldType
 {
   ENTITY_TYPE_NONE,
   ENTITY_TYPE_NUMBER,
@@ -13,7 +13,27 @@ typedef enum EntityFieldType
   ENTITY_TYPE_COLOR,
   ENTITY_TYPE_DROPDOWN,
   ENTITY_TYPE_LENGTH,
-} EntityFieldType;
+} FieldType;
+
+#define ENTITY_FIELD_TYPE_NAMES { \
+  "None", \
+  "Number", \
+  "String", \
+  "Bool", \
+  "Vector2", \
+  "Rect", \
+  "Color", \
+  "Dropdown" \
+}
+
+#define ENTITY_FIELD_TYPE_NAMES_DROPDOWN \
+  "Number;" \
+  "String;" \
+  "Bool;" \
+  "Vector2;" \
+  "Rect;" \
+  "Color;" \
+  "Dropdown"
 
 typedef struct EntitySprite
 {
@@ -21,7 +41,7 @@ typedef struct EntitySprite
   Texture2D *texture;
 } EntitySprite;
 
-typedef union EntityFieldValue
+typedef union FieldValue
 {
   char *string;
   bool boolean;
@@ -30,31 +50,49 @@ typedef union EntityFieldValue
   Vector2 vector2;
   Rectangle rect;
   Color color;
-} EntityFieldValue;
+} FieldValue;
 
-typedef struct EntityField
+
+// ====== Entity Prototype ====== //
+typedef struct EntityPrototypeField
 {
   char *name;
-  EntityFieldType type;
-  EntityFieldValue value;
-} EntityField;
+  FieldType type;
+  FieldValue defaultValue;
+} EntityPrototypeField;
 
 typedef struct Entity
 {
   int fieldCount;
+  EntityPrototypeField *fields;
   char *name;
   EntitySprite *sprite;
-  EntityField *fields;
   Color *color;
 } Entity;
+
+typedef bool (*EntityPrototypeFieldDrawMethod)(EntityPrototypeField *field, Vector2 labelPosition, Rectangle inputRect);
+bool entityPrototypeFieldDraw(EntityPrototypeField *field, Vector2 labelPosition, Rectangle inputRect);
+
+void entityInit(Entity *entity);
+void entityAddField(Entity *entity, const char *name, EntityPrototypeField *field);
+void entityRemoveField(Entity *entity, const int index);
+void entityFree(Entity *entity);
+
+// ====== Entity Instance ====== //
+typedef struct EntityInstanceField
+{
+  char *name;
+  bool isEditable;
+  FieldType type;
+  FieldValue value;
+} EntityInstanceField;
 
 typedef struct EntityInstance
 {
   Entity *entity;
+  EntityInstanceField *fields;
   GridPosition position;
 } EntityInstance;
 
-void entityInit(Entity *entity);
-void entityAddField(Entity *entity, const char *name, EntityFieldType type, EntityFieldValue value);
-void entityRemoveField(Entity *entity, const int index);
-void entityFree(Entity *entity);
+typedef bool (*EntityInstanceFieldDrawMethod)(EntityInstanceField *field, Vector2 labelPosition, Rectangle inputRect);
+bool entityInstanceFieldDraw(EntityInstanceField *field, Vector2 labelPosition, Rectangle inputRect);

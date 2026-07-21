@@ -10,3 +10,4 @@ extern int WINDOW_HEIGHT;
 #define COLOR_5 ((Color){ 51, 51, 51, 255 })          // #333333
 
 #define CLOSE_ICON "#113#"
+#define PLUS_ICON "#8#"
