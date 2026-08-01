@@ -71,11 +71,12 @@ typedef struct Entity
 } Entity;
 
 typedef bool (*EntityPrototypeFieldDrawMethod)(EntityPrototypeField *field, Vector2 labelPosition, Rectangle inputRect);
-bool entityPrototypeFieldDraw(EntityPrototypeField *field, Vector2 labelPosition, Rectangle inputRect);
+bool entityFieldPrototypeDraw(EntityPrototypeField *field, Vector2 labelPosition, Rectangle inputRect);
 
 void entityInit(Entity *entity);
-void entityAddField(Entity *entity, const char *name, EntityPrototypeField *field);
+void entityAddField(Entity *entity, EntityPrototypeField *field);
 void entityRemoveField(Entity *entity, const int index);
+int searchEntityPrototypeFieldByName(Entity *entity, const char *name);
 void entityFree(Entity *entity);
 
 // ====== Entity Instance ====== //
