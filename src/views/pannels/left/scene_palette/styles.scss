@@ -1,0 +1,20 @@
+.palette {
+	display: flex;
+	gap: 0.75rem;
+	padding: 1rem;
+}
+
+.palette-label {
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: #111827;
+}
+
+.palette-select {
+	border: 1px solid #d1d5db;
+	border-radius: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	font-size: 0.95rem;
+	background-color: #ffffff;
+	color: #111827;
+}
